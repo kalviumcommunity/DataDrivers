@@ -100,7 +100,7 @@ The product relies on four distinct technical pillars to bridge the data-to-insi
 
 ## 5. Non-Functional Requirements
 
-**Performance:** Streamlit app filter adjustments must recalculate and rerender charts in less than 2 seconds.
+**Performance:** Streamlit app filters adjustments must recalculate and rerender charts in less than 2 seconds.
 
 **Data Security:** Data must be processed locally or via secure internal servers; no public caching of proprietary pricing matrix data.
 
