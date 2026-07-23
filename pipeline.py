@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 
 from cleaning import clean_data
+from sql_aggregation import run_sql_aggregations
 from segmentation import segment_customers
 from kpi_engine import calculate_kpis
 from volatility import calculate_volatility
@@ -42,7 +43,11 @@ def load_and_process_data(file_path: str):
     print("Calculating volatility scores...")
     volatility_df = calculate_volatility(segmented_df)
 
-    # Step 6: Save outputs
+    # Step 6: Run SQL business aggregations against the processed dataset.
+    print("Running SQL aggregations...")
+    sql_results = run_sql_aggregations(segmented_df)
+
+    # Step 7: Save outputs
     data_dir = os.path.dirname(file_path)
     output_dir = os.path.join(data_dir, "processed")
 
@@ -70,7 +75,7 @@ def load_and_process_data(file_path: str):
 
     print(f"All files saved to: {output_dir}")
 
-    return segmented_df, kpis_df, volatility_df
+    return segmented_df, kpis_df, volatility_df, sql_results
 
 
 if __name__ == "__main__":
@@ -89,7 +94,7 @@ if __name__ == "__main__":
         print("HOTEL BOOKING DATA PIPELINE")
         print("=" * 60)
 
-        segmented_df, kpis_df, volatility_df = load_and_process_data(
+        segmented_df, kpis_df, volatility_df, sql_results = load_and_process_data(
             raw_data_path
         )
 
@@ -104,11 +109,20 @@ if __name__ == "__main__":
         print("-" * 40)
         print(volatility_df.head())
 
+        print("\nSQL Output Files Generated:")
+        print("data/processed/sql_outputs/total_bookings_by_customer_segment.csv")
+        print("data/processed/sql_outputs/cancellation_rate_by_customer_segment.csv")
+        print("data/processed/sql_outputs/average_adr_by_customer_segment.csv")
+        print("data/processed/sql_outputs/revenue_lost_by_customer_segment.csv")
+        print("data/processed/sql_outputs/monthly_booking_summary.csv")
+        print("data/processed/sql_outputs/hotel_wise_booking_summary.csv")
+
         print("\nOutput Files Generated:")
         print("data/processed/cleaned_data.csv")
         print("data/processed/segmented_data.csv")
         print("data/processed/kpis.csv")
         print("data/processed/volatility.csv")
+        print("data/processed/sql_outputs/")
 
     except FileNotFoundError as e:
         print("\nERROR:")

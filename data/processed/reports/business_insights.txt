@@ -1,0 +1,2 @@
+Highest booking segment: Online TA
+Use dashboard filters to explore cancellation and ADR trends.
