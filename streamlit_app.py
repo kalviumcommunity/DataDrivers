@@ -13,6 +13,140 @@ st.set_page_config(
 )
 
 # --------------------------------------
+# GLOBAL PREMIUM EFFECTS & ANIMATIONS
+# --------------------------------------
+def apply_premium_effects():
+    """Injects high-end UI animations, glassmorphism, and gradient styling globally."""
+    st.markdown("""
+        <style>
+        /* 1. Keyframe Engines */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes pulseLive {
+            0% { box-shadow: 0 0 5px #00D4AA; opacity: 1; }
+            50% { box-shadow: 0 0 20px #00D4AA; opacity: 0.4; }
+            100% { box-shadow: 0 0 5px #00D4AA; opacity: 1; }
+        }
+        
+        /* 2. Global Deep Space Background */
+        .stApp {
+            background: radial-gradient(circle at 10% 20%, #0A1128 0%, #030408 100%) !important;
+        }
+        
+        /* 3. Sidebar Glassmorphism */
+        [data-testid="stSidebar"] {
+            background: rgba(14, 17, 23, 0.4) !important;
+            backdrop-filter: blur(20px) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* 4. Massive Header Typography */
+        .hdr-title, .sv-header-title {
+            font-size: 46px !important; 
+            font-weight: 900 !important;
+            letter-spacing: -1.5px;
+            text-shadow: 0 10px 40px rgba(0, 212, 170, 0.25);
+            margin-bottom: 4px; padding-top: 10px;
+        }
+        
+        /* Apply text gradient only to text spans so Emojis remain visible! */
+        .gradient-text {
+            background: linear-gradient(90deg, #00D4AA, #3B82F6, #8B5CF6, #00D4AA);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 6s ease infinite;
+        }
+        
+        /* Live Blinking Dot */
+        .live-dot {
+            height: 14px;
+            width: 14px;
+            background-color: #00D4AA;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            animation: pulseLive 1.5s infinite ease-in-out;
+        }
+        
+        /* 5. Fluid Responsive Cards - Entrance Animation & Structural Layering */
+        .kpi-card, .insight-card, div[data-testid="stPlotlyChart"], .findings-card {
+            background: linear-gradient(145deg, rgba(27, 36, 51, 0.85) 0%, rgba(15, 20, 31, 0.95) 100%) !important;
+            backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            position: relative;
+            
+            /* Crucial fix for chart scrollbars overflowing the bounds */
+            box-sizing: border-box !important;
+            overflow: hidden !important; 
+        }
+        
+        /* Staggered Loading - Targets Streamlit's inner block layouts */
+        div[data-testid="stVerticalBlock"] > div:nth-child(1) { animation-delay: 0.1s; }
+        div[data-testid="stVerticalBlock"] > div:nth-child(2) { animation-delay: 0.2s; }
+        div[data-testid="stVerticalBlock"] > div:nth-child(3) { animation-delay: 0.3s; }
+        div[data-testid="stVerticalBlock"] > div:nth-child(4) { animation-delay: 0.4s; }
+        div[data-testid="stVerticalBlock"] > div:nth-child(5) { animation-delay: 0.5s; }
+        
+        /* 6. Extruded Hover States (Increased Lift and Shadow for Final Polish) */
+        .kpi-card:hover, .insight-card:hover, div[data-testid="stPlotlyChart"]:hover, .findings-card:hover {
+            transform: translateY(-10px) scale(1.03) !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1.5px #00D4AA !important;
+            z-index: 99;
+        }
+        
+        /* 110% Font Setup for all KPIs */
+        .kpi-value {
+             font-size: 35px !important; 
+        }
+        
+        /* Subtle Diagonal Glare Sweep on cards */
+        .kpi-card::after, .insight-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            transform: skewX(-20deg);
+            transition: 0.7s;
+        }
+        .kpi-card:hover::after, .insight-card:hover::after {
+            left: 200%;
+        }
+        
+        /* 7. Button Overhaul (Holographic feel applied to both regular and downloads) */
+        div.stButton > button, div.stDownloadButton > button {
+            background: linear-gradient(270deg, #00D4AA, #3B82F6, #8B5CF6, #00D4AA) !important;
+            background-size: 300% 300% !important;
+            border: none !important;
+            border-radius: 50px !important; /* Pill shape */
+            color: white !important;
+            font-weight: 800 !important;
+            padding: 0.4rem 1.8rem !important;
+            box-shadow: 0 6px 15px rgba(0, 212, 170, 0.3) !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            width: 100% !important;
+        }
+        div.stButton > button:hover, div.stDownloadButton > button:hover {
+            animation: gradientFlow 3s ease infinite !important;
+            transform: translateY(-4px) scale(1.05) !important;
+            box-shadow: 0 12px 25px rgba(0, 212, 170, 0.6) !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+apply_premium_effects()
+
+# --------------------------------------
 # SIDEBAR STYLING
 # --------------------------------------
 st.markdown("""
@@ -112,14 +246,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown(
-        """
-        <div class='badge'>
-        Q2 2025 Dashboard
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+
 
 # --------------------------------------
 # HEADER MODULE
@@ -164,11 +291,11 @@ def render_header():
     col1, col2 = st.columns([0.75, 0.25])
 
     with col1:
-        st.markdown('<div class="hdr-title">🏨 Hotel Revenue Cockpit</div>', unsafe_allow_html=True)
-        st.markdown('<div class="hdr-subtitle">Executive Summary | Q2 2025</div>', unsafe_allow_html=True)
+        st.markdown('<div class="hdr-title"><span style="-webkit-text-fill-color: initial;">🏨</span> <span class="gradient-text">Hotel Revenue Cockpit</span></div>', unsafe_allow_html=True)
+        
 
     with col2:
-        st.markdown('<div class="hdr-live-status">🟢 LIVE</div>', unsafe_allow_html=True)
+        st.markdown('<div class="hdr-live-status"><span class="live-dot"></span>LIVE</div>', unsafe_allow_html=True)
         st.markdown('<div class="hdr-refresh">Last Refresh: Today</div>', unsafe_allow_html=True)
 
     # Divider below the header
@@ -267,20 +394,18 @@ def render_charts():
     Renders the occupancy and revenue lost charts cleanly inside dashboard cards.
     """
     
-    # Target Streamlit's native Plotly wrappers to act as our dark dashboard cards
     st.markdown("""
         <style>
         div[data-testid="stPlotlyChart"] {
             background-color: #1B2433;
             border-radius: 16px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-            padding: 10px 20px 20px 20px;
+            padding: 24px 34px 30px 34px !important; /* Increased Internal Padding */
             margin-top: 24px;
         }
         </style>
     """, unsafe_allow_html=True)
     
-    # Mock data setup for visual staging
     chart_data = {
         "customer_segment": ["Direct", "Corporate", "Online TA", "Offline TA/TO", "Groups", "Other"],
         "occupancy_rate": [75, 82, 65, 50, 45, 30],
@@ -288,79 +413,62 @@ def render_charts():
     }
     df = pd.DataFrame(chart_data)
     
-    # Enterprise Segment Color Scheme
     segment_colors = {
-        "Direct": "#00D4AA",
-        "Corporate": "#3B82F6",
-        "Online TA": "#F59E0B",
-        "Offline TA/TO": "#EF4444",
-        "Groups": "#8B5CF6",
-        "Other": "#22C55E"
+        "Direct": "#00D4AA", "Corporate": "#3B82F6", "Online TA": "#F59E0B",
+        "Offline TA/TO": "#EF4444", "Groups": "#8B5CF6", "Other": "#22C55E"
     }
     
     col1, col2 = st.columns(2, gap="large")
     
     with col1:
+        # Horizontal Bar Chart for Occupancy
+        df_occ = df.sort_values(by="occupancy_rate", ascending=True)
         fig1 = px.bar(
-            df, x="customer_segment", y="occupancy_rate",
-            text="occupancy_rate", color="customer_segment",
-            color_discrete_map=segment_colors
+            df_occ, x="occupancy_rate", y="customer_segment", orientation='h',
+            text="occupancy_rate", color="customer_segment", color_discrete_map=segment_colors
         )
         
-        # Core Bar Chart Adjustments
         fig1.update_traces(
-            texttemplate='%{text}%', 
-            textposition='outside', 
-            textfont=dict(color='white'),
-            cliponaxis=False
+            texttemplate='%{text}%', textposition='outside', 
+            textfont=dict(color='white', size=14), cliponaxis=False,
+            hovertemplate="<b>%{y}</b><br>Occupancy Rate: %{x}%<extra></extra>"
         )
         
-        # Granular Plotly Styling to match Figma guidelines
         fig1.update_layout(
+            height=430, # Increased Height
             title=dict(
-                text="<b>Occupancy Rate by Customer Segment</b><br><span style='font-size:13px; color:#9CA3AF;'>Q2 2025 Performance</span>",
-                x=0.0, y=0.95, font=dict(size=16, color="white")
+                text="<b>Occupancy Rate by Customer Segment</b><br><span style='font-size:14px; color:#9CA3AF;'></span>",
+                x=0.5, xanchor='center', font=dict(size=18, color="white")
             ),
-            template="plotly_dark",
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            showlegend=False,
-            margin=dict(t=80, l=10, r=10, b=30),
-            xaxis=dict(title="", showgrid=False, tickfont=dict(color="#9CA3AF")),
-            yaxis=dict(title="", showgrid=False, showticklabels=False, range=[0, 100]) # Hard range prevents clip 
+            template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+            showlegend=False, margin=dict(t=80, l=10, r=40, b=30),
+            xaxis=dict(title="Occupancy (%)", showgrid=False, tickfont=dict(color="#9CA3AF", size=13)),
+            yaxis=dict(title="", showgrid=False, tickfont=dict(size=14))
         )
-        # Suppress interactive mode bar
         st.plotly_chart(fig1, use_container_width=True, config={'displayModeBar': False})
 
     with col2:
-        fig2 = px.bar(
-            df, x="customer_segment", y="revenue_lost",
-            text="revenue_lost", color="customer_segment",
-            color_discrete_map=segment_colors
+        # Donut Chart for Revenue Loss
+        fig2 = px.pie(
+            df, values="revenue_lost", names="customer_segment", hole=0.55,
+            color="customer_segment", color_discrete_map=segment_colors
         )
         
-        # Format text overlay conditionally as currency
         fig2.update_traces(
-            texttemplate='$%{text:,.0f}', 
-            textposition='outside',
-            textfont=dict(color='white'),
-            cliponaxis=False
+            textposition='outside', textinfo='percent+label',
+            textfont=dict(color='white', size=13),
+            hovertemplate="<b>%{label}</b><br>Revenue Loss: $%{value:,.0f}<br>Contribution: %{percent}<extra></extra>"
         )
         
-        # Granular Layout Configuration
         fig2.update_layout(
+            height=430,
             title=dict(
-                text="<b>Revenue Lost by Customer Segment</b><br><span style='font-size:13px; color:#9CA3AF;'>Current Quarter</span>",
-                x=0.0, y=0.95, font=dict(size=16, color="white")
+                text="<b>Revenue Lost by Customer Segment</b><br><span style='font-size:14px; color:#9CA3AF;'>Current Quarter</span>",
+                x=0.5, xanchor='center', font=dict(size=18, color="white")
             ),
-            template="plotly_dark",
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            showlegend=False,
-            margin=dict(t=80, l=10, r=10, b=30),
-            xaxis=dict(title="", showgrid=False, tickfont=dict(color="#9CA3AF")),
-            # Automatically scale max Y by 20% to accommodate floating text above bars
-            yaxis=dict(title="", showgrid=False, showticklabels=False, range=[0, df['revenue_lost'].max() * 1.2]) 
+            template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+            showlegend=True, legend=dict(orientation="v", yanchor="middle", y=0.5, xanchor="left", x=1.05),
+            margin=dict(t=80, l=10, r=10, b=30)
         )
         st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
 
@@ -411,23 +519,23 @@ def render_executive_insights():
     with c1:
         st.markdown('''
             <div class="insight-card">
-                <div class="insight-header">🟢 Occupancy Performance</div>
-                <div class="insight-desc">Overall occupancy remains healthy at 68.4%.</div>
+                <div class="insight-header" style="color: #22C55E;">🟢 Occupancy Performance</div>
+                <div class="insight-desc">Overall occupancy remains positive at 68.4%.</div>
             </div>
             <div class="insight-card">
-                <div class="insight-header">📈 Best Performing Segment</div>
-                <div class="insight-desc">Corporate bookings maintain the highest occupancy.</div>
+                <div class="insight-header" style="color: #22C55E;">📈 Best Performing Segment</div>
+                <div class="insight-desc">Corporate bookings maintain the highest occupancy levels.</div>
             </div>
         ''', unsafe_allow_html=True)
     with c2:
         st.markdown('''
             <div class="insight-card">
-                <div class="insight-header">⚠ Revenue Risk</div>
-                <div class="insight-desc">Online TA contributes the highest revenue loss.</div>
+                <div class="insight-header" style="color: #EF4444;">⚠ Revenue Risk</div>
+                <div class="insight-desc">Online TA contributes the highest volume of revenue loss.</div>
             </div>
             <div class="insight-card">
-                <div class="insight-header">💡 Recommendation</div>
-                <div class="insight-desc">Increase direct bookings and reduce OTA dependency.</div>
+                <div class="insight-header" style="color: #3B82F6;">💡 Recommendation</div>
+                <div class="insight-desc">Increase direct bookings and reduce high-risk OTA dependency.</div>
             </div>
         ''', unsafe_allow_html=True)
 
@@ -439,7 +547,6 @@ def render_key_metrics():
         ("🏨 Total Properties", "14"),
         ("📅 Active Bookings", "4,291"),
         ("👥 Customer Segments", "6"),
-        ("📈 Data Window", "Q2 2025")
     ]
     
     for col, (title, val) in zip(cols, metrics):
@@ -528,8 +635,8 @@ def render_sv_styles():
 def render_segment_volatility_page():
     render_sv_styles()
     
-    # 1. HEADER
-    st.markdown('<div class="sv-header-title">📈 Segment Volatility Analyzer</div>', unsafe_allow_html=True)
+    # 1. HEADER (Isolating the emoji from the text gradient so it's fully visible)
+    st.markdown('<div class="sv-header-title"><span style="-webkit-text-fill-color: initial;">📈</span> <span class="gradient-text">Segment Volatility Analyzer</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="sv-header-subtitle">Analyze customer segment volatility, cancellations and revenue impact.</div>', unsafe_allow_html=True)
     
     df = get_volatility_data()
@@ -590,7 +697,7 @@ def render_segment_volatility_page():
     # Universal Segment Palette 
     segment_colors = {"Direct": "#00D4AA", "Corporate": "#3B82F6", "Online TA": "#F59E0B", "Offline TA/TO": "#EF4444", "Groups": "#8B5CF6", "Other": "#22C55E"}
             
-    # 4. CHART SECTION (ROW 1)
+    # 4. CHART SECTION (ROW 1 - Volatility Metrics)
     st.markdown('<div class="section-title">Segment Volatility Metrics</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2, gap="large")
     
@@ -598,48 +705,104 @@ def render_segment_volatility_page():
         # Horizonatal Bar
         df_h = df.sort_values(by="volatility_score", ascending=True) 
         fig1 = px.bar(df_h, x="volatility_score", y="customer_segment", color="customer_segment", orientation='h', text="volatility_score", color_discrete_map=segment_colors)
-        fig1.update_traces(textposition='outside', textfont=dict(color='white'), cliponaxis=False)
+        fig1.update_traces(
+            textposition='outside', textfont=dict(color='white', size=13), cliponaxis=False,
+            hovertemplate="<b>%{y}</b><br>Volatility Score: %{x}<extra></extra>"
+        )
         fig1.update_layout(
-            title=dict(text="<b>Volatility Score by Customer Segment</b>", font=dict(size=15, color="white")),
+            height=430,
+            title=dict(text="<b>Volatility Score by Customer Segment</b>", x=0.5, xanchor='center', font=dict(size=18, color="white")),
             template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=False,
-            margin=dict(t=50, l=10, r=30, b=10), xaxis=dict(showgrid=False, range=[0, (df['volatility_score'].max() or 1) * 1.2], showticklabels=False, title=""), yaxis=dict(showgrid=False, title="")
+            margin=dict(t=80, l=10, r=40, b=30), 
+            xaxis=dict(showgrid=False, range=[0, (df['volatility_score'].max() or 1) * 1.2], showticklabels=False, title=""), 
+            yaxis=dict(showgrid=False, title="", tickfont=dict(size=14))
         )
         st.plotly_chart(fig1, use_container_width=True, config={'displayModeBar': False})
         
     with c2:
-        # Vertical Bar
-        fig2 = px.bar(df, x="customer_segment", y="revenue_lost", color="customer_segment", text="revenue_lost", color_discrete_map=segment_colors)
-        fig2.update_traces(texttemplate='$%{text:,.0f}', textposition='outside', textfont=dict(color='white'), cliponaxis=False)
+        # Revenue Loss transformed to Donut Chart
+        fig2 = px.pie(
+            df, values="revenue_lost", names="customer_segment", hole=0.55,
+            color="customer_segment", color_discrete_map=segment_colors
+        )
+        
+        fig2.update_traces(
+            textposition='outside', textinfo='percent+label',
+            textfont=dict(color='white', size=13),
+            hovertemplate="<b>%{label}</b><br>Revenue Loss: $%{value:,.0f}<br>Contribution: %{percent}<extra></extra>"
+        )
         fig2.update_layout(
-            title=dict(text="<b>Revenue Loss by Customer Segment</b>", font=dict(size=15, color="white")),
-            template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=False,
-            margin=dict(t=50, l=10, r=10, b=10), yaxis=dict(showgrid=False, range=[0, (df['revenue_lost'].max() or 1) * 1.2], showticklabels=False, title=""), xaxis=dict(showgrid=False, title="")
+            height=430,
+            title=dict(
+                text="<b>Revenue Loss Distribution</b>",
+                x=0.5, xanchor='center', font=dict(size=18, color="white")
+            ),
+            template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=True,
+            legend=dict(orientation="v", yanchor="middle", y=0.5, xanchor="left", x=1.05),
+            margin=dict(t=80, l=10, r=10, b=30)
         )
         st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
 
     # 5. SECOND CHART ROW
     c3, c4 = st.columns(2, gap="large")
     with c3:
-        # Line Chart
-        fig3 = px.line(df, x="customer_segment", y="cancellation_rate", markers=True)
-        fig3.update_traces(line=dict(color="#EF4444", width=3), marker=dict(size=8, color="white"))
+        # Horizontal Bar for Cancellation Rate
+        df_cancel = df.sort_values(by="cancellation_rate", ascending=True)
+        fig3 = px.bar(
+            df_cancel, x="cancellation_rate", y="customer_segment", orientation='h',
+            text="cancellation_rate", color="cancellation_rate", color_continuous_scale="Reds"
+        )
+        fig3.update_traces(
+            texttemplate='%{text}%', textposition='outside', textfont=dict(color='white', size=14), cliponaxis=False,
+            hovertemplate="<b>%{y}</b><br>Cancel Rate: %{x}%<extra></extra>"
+        )
         fig3.update_layout(
-            title=dict(text="<b>Cancellation Rate by Customer Segment</b>", font=dict(size=15, color="white")),
+            height=430,
+            title=dict(text="<b>Cancellation Rate by Segment</b>", x=0.5, xanchor='center', font=dict(size=18, color="white")),
             template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=False,
-            margin=dict(t=50, l=10, r=10, b=10), yaxis=dict(showgrid=False, title="Rate (%)", tickfont=dict(color="#9CA3AF")), xaxis=dict(showgrid=False, title="")
+            coloraxis_showscale=False,
+            margin=dict(t=80, l=10, r=40, b=30), 
+            yaxis=dict(showgrid=False, title="", tickfont=dict(size=14)), 
+            xaxis=dict(showgrid=False, title="Cancellation Rate (%)", tickfont=dict(color="#9CA3AF", size=13))
         )
         st.plotly_chart(fig3, use_container_width=True, config={'displayModeBar': False})
         
     with c4:
-        # Scatter Plot
-        fig4 = px.scatter(df, x="occupancy_rate", y="volatility_score", size="revenue_lost", color="customer_segment", 
-                          hover_data=["customer_segment", "occupancy_rate", "revenue_lost", "volatility_score"],
-                          color_discrete_map=segment_colors)
+        # Heavily Enhanced Scatter Plot with Quadrants
+        avg_occ = df["occupancy_rate"].mean() if not df.empty else 0
+        avg_vol = df["volatility_score"].mean() if not df.empty else 0
+        
+        fig4 = px.scatter(
+            df, x="occupancy_rate", y="volatility_score", size="revenue_lost", color="customer_segment", 
+            size_max=35, # Increased bubble visibility
+            color_discrete_map=segment_colors, hover_name="customer_segment",
+            hover_data={"customer_segment": False, "occupancy_rate": True, "revenue_lost": True, "volatility_score": True}
+        )
+        
+        # Enforce advanced Tooltip data string
+        fig4.update_traces(hovertemplate="<b>%{hovertext}</b><br>Occupancy: %{x}%<br>Volatility: %{y}<br>Loss: %{marker.size}<extra></extra>")
+        
+        # Inject Quadrant Lines
+        if not df.empty:
+            fig4.add_vline(x=avg_occ, line_dash="dash", line_color="rgba(255,255,255,0.25)")
+            fig4.add_hline(y=avg_vol, line_dash="dash", line_color="rgba(255,255,255,0.25)")
+            
+            # Quadrant Annotations (High Level Mapping)
+            x_min, x_max = df['occupancy_rate'].min(), df['occupancy_rate'].max()
+            y_min, y_max = df['volatility_score'].min(), df['volatility_score'].max()
+            
+            fig4.add_annotation(x=x_min, y=y_max, text="High Risk", showarrow=False, font=dict(color="#EF4444", size=12), align="left", xanchor="left")
+            fig4.add_annotation(x=x_max, y=y_max, text="High Opportunity", showarrow=False, font=dict(color="#F59E0B", size=12), align="right", xanchor="right")
+            fig4.add_annotation(x=x_min, y=y_min, text="Low Performance", showarrow=False, font=dict(color="#9CA3AF", size=12), align="left", xanchor="left")
+            fig4.add_annotation(x=x_max, y=y_min, text="Stable Segment", showarrow=False, font=dict(color="#00D4AA", size=12), align="right", xanchor="right")
+        
         fig4.update_layout(
-            title=dict(text="<b>Occupancy vs Volatility</b>", font=dict(size=15, color="white")),
+            height=430,
+            title=dict(text="<b>Occupancy vs Volatility Matrix</b>", x=0.5, xanchor='center', font=dict(size=18, color="white")),
             template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=False,
-            margin=dict(t=50, l=10, r=10, b=10), yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.1)', title="Volatility Score", tickfont=dict(color="#9CA3AF")), 
-            xaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.1)', title="Occupancy Rate (%)", tickfont=dict(color="#9CA3AF"))
+            margin=dict(t=80, l=10, r=10, b=30), 
+            yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.1)', title="Volatility Score", tickfont=dict(color="#9CA3AF", size=13)), 
+            xaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.1)', title="Occupancy Rate (%)", tickfont=dict(color="#9CA3AF", size=13))
         )
         st.plotly_chart(fig4, use_container_width=True, config={'displayModeBar': False})
 
@@ -667,14 +830,27 @@ def render_segment_volatility_page():
         
     st.markdown("<br>", unsafe_allow_html=True)
         
-    # 8. EXPORT SECTION
+    # 8. EXPORT SECTION (Fixed un-styled button and dead click)
     ec1, ec2, _ = st.columns([1, 1.2, 5])
     with ec1:
-        # Download CSV cleanly from pandas mapping
         csv_data = df.to_csv(index=False).encode('utf-8')
         st.download_button("Download CSV", data=csv_data, file_name="segment_metrics.csv", use_container_width=True)
     with ec2:
-        st.button("Download Dashboard Report", use_container_width=True)
+        # Dynamically generate a readable text report so it isn't an invalid PDF byte-stream
+        report_text = f"HOTEL REVENUE COCKPIT : SEGMENT VOLATILITY REPORT\n"
+        report_text += f"Generated: {pd.Timestamp.now().strftime('%B %d, %Y - %H:%M:%S')}\n"
+        report_text += "="*50 + "\n\n"
+        report_text += "--- EXECUTIVE SUMMARY ---\n"
+        report_text += f"Total Revenue Lost: ${df['revenue_lost'].sum():,.0f}\n"
+        report_text += f"Average Occupancy: {df['occupancy_rate'].mean():.1f}%\n"
+        report_text += f"Highest Risk Segment: {df.loc[df['volatility_score'].idxmax()]['customer_segment']}\n\n"
+        report_text += "--- DETAILED METRICS ---\n"
+        for _, row in df.iterrows():
+            report_text += f" • {row['customer_segment'].ljust(15)} | Occ: {row['occupancy_rate']}% | Loss: ${row['revenue_lost']:,.0f} | Volatility: {row['volatility_score']}\n"
+        report_text += "\n--- RECOMMENDATION ---\n"
+        report_text += f"Implement exposure limits on {df.loc[df['volatility_score'].idxmax()]['customer_segment']} to prevent further margin leaks.\n"
+
+        st.download_button("Download Dashboard Report", data=report_text.encode('utf-8'), file_name="dashboard_report.txt", use_container_width=True)
     
     render_footer()
 
